@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ScoreService } from '../score.service';
 
 @Component({
   selector: 'app-individual-contributor',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndividualContributorComponent implements OnInit {
 
-  constructor() { }
+  constructor(private scoreService: ScoreService) { }
 
   ngOnInit(): void {
   }
 
+  onClick(): void {
+    this.scoreService.incrementScore();
+  }
 }
