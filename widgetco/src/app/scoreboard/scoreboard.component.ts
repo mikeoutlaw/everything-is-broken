@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { Score } from '../score';
-import { ScoreService } from '../score.service';
+import { Company } from '../company';
+import { CompanyService } from '../company.service';
 
 @Component({
-  selector: 'app-score',
+  selector: 'app-scoreboard',
   templateUrl: './scoreboard.component.html',
   styleUrls: ['./scoreboard.component.css']
 })
 export class ScoreBoardComponent implements OnInit {
-  score: Score = new Score();
+  company: any; // any seems like a code smell here
 
-  constructor(private scoreService: ScoreService) { }
+  constructor(private companyService: CompanyService) { }
 
   ngOnInit(): void {
-    this.getScore();
+    this.getCompany();
   }
 
-  getScore(): void {
-    this.scoreService.getScore().subscribe(score => this.score = score);
+  getCompany(): void {
+    this.companyService.getCompany().subscribe(company => this.company = company);
   }
 }

@@ -1,12 +1,12 @@
-import { ScoreService } from "./score.service";
+import { CompanyService } from "./company.service";
 
 export class Employee {
     intervalId: any;
     delayMs: number = 1000;
 
-    constructor(private scoreService: ScoreService) {
+    constructor(private companyService: CompanyService) {
         this.intervalId = setInterval(() => {
-            this.scoreService.incrementScore();
+            this.companyService.closeTickets(1);
         }, this.delayMs);
     }
 }

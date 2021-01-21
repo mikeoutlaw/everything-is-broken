@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Employee } from '../employee';
-import { ScoreService } from '../score.service';
+import { CompanyService } from '../company.service';
 
 @Component({
   selector: 'app-individual-contributors',
@@ -8,14 +7,13 @@ import { ScoreService } from '../score.service';
   styleUrls: ['./individual-contributors.component.css']
 })
 export class IndividualContributorsComponent implements OnInit {
-  employees: Employee[] = [];
 
-  constructor(private scoreService: ScoreService) { }
+  constructor(private companyService: CompanyService) { }
 
   ngOnInit(): void {
   }
 
   onNewHireClick(): void {
-    this.employees.push(new Employee(this.scoreService));
+    this.companyService.hireNewEmployee(1);
   }
 }
