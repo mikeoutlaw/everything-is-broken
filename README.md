@@ -6,10 +6,11 @@ This is a game that was developed during Coding Blocks' first game jam (aka #cbj
 * The premise will center around our heroine's, Michelle, new start-up company called Widget Co.
 * Like most start ups, Widget Co's software has a lot to be written, so we've gotta close tickets!
 * The more developers we hire, the more tickets we can close. Maybe?
+* Closing a ticket has an associated value earned.
+* Maybe we allow individual contributors to be consolidated into small teams, small teams into medium, etc.
 * We'll differeniate between bug tickets (less effort, lower value) and new feature tickets (more difficult, more valuable).
 
 ## TODO
-* Use the Idle Game Maker engine: https://orteil.dashnet.org/igm/
 * Introduce ticket differeniation
 * Maybe Docker-ize?
 * Maybe Kubernetes-ize?
