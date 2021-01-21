@@ -3,10 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ScoreComponent } from './score/score.component';
+import { IndividualContributorComponent } from './individual-contributor/individual-contributor.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ScoreComponent,
+    IndividualContributorComponent
   ],
   imports: [
     BrowserModule,
