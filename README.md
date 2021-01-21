@@ -24,3 +24,8 @@ Defaults to single developer.
 * Automate local dev env using Docker/K8s/etc (increases developer productivity)
 * Offer free lunch (costs but improves developer health, reduces away time, encourages more conversations, increases productivity)
 * Expand into new office/building/city to increase throughput
+
+## Scoring Breakdown
+* Individual Contributor - 1 ticket/second
+* Small Team - 1 ticket/500ms
+* Medium Team - 5 tickets per every 2 seconds

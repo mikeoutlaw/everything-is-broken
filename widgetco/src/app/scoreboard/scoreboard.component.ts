@@ -4,8 +4,8 @@ import { ScoreService } from '../score.service';
 
 @Component({
   selector: 'app-score',
-  templateUrl: './score.component.html',
-  styleUrls: ['./score.component.css']
+  templateUrl: './scoreboard.component.html',
+  styleUrls: ['./scoreboard.component.css']
 })
 export class ScoreComponent implements OnInit {
   score: Score = new Score();

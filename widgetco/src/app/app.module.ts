@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ScoreComponent } from './score/score.component';
+import { ScoreComponent } from './scoreboard/scoreboard.component';
 import { IndividualContributorComponent } from './individual-contributor/individual-contributor.component';
 
 @NgModule({
