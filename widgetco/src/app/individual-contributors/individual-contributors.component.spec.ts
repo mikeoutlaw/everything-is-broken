@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IndividualContributorComponent } from './individual-contributor.component';
+import { IndividualContributorsComponent } from './individual-contributors.component';
 
-describe('IndividualContributorComponent', () => {
-  let component: IndividualContributorComponent;
-  let fixture: ComponentFixture<IndividualContributorComponent>;
+describe('IndividualContributorsComponent', () => {
+  let component: IndividualContributorsComponent;
+  let fixture: ComponentFixture<IndividualContributorsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ IndividualContributorComponent ]
+      declarations: [ IndividualContributorsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IndividualContributorComponent);
+    fixture = TestBed.createComponent(IndividualContributorsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -24,7 +24,7 @@ describe('IndividualContributorComponent', () => {
   });
 
   it('should have a button', () => {
-    const fixture = TestBed.createComponent(IndividualContributorComponent);
+    const fixture = TestBed.createComponent(IndividualContributorsComponent);
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('button')).toBeTruthy();
   });

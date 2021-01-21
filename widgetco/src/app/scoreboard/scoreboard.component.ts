@@ -7,7 +7,7 @@ import { ScoreService } from '../score.service';
   templateUrl: './scoreboard.component.html',
   styleUrls: ['./scoreboard.component.css']
 })
-export class ScoreComponent implements OnInit {
+export class ScoreBoardComponent implements OnInit {
   score: Score = new Score();
 
   constructor(private scoreService: ScoreService) { }
