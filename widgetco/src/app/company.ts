@@ -5,6 +5,8 @@ import { Team } from "./team";
 export class Company {
     employees: Employee[] = [];
     smallTeams: Team[] = [];
+    mediumTeams: Team[] = [];
+    largeTeams: Team[] = [];
 
     hiringBudget: number = 5;
     ticketsClosed: number = 0;
@@ -16,6 +18,14 @@ export class Company {
     private readonly smallTeamSize: number = 5;
     private readonly smallTeamDelayMs: number = 800;
     private readonly smallTeamTicketCloseRate: number = 5;
+
+    private readonly necessarySmallTeamsToFormMediumTeam: number = 2;
+    private readonly mediumTeamDelayMs: number = 1100;
+    private readonly mediumTeamTicketCloseRate: number = 13;
+
+    private readonly necessaryMediumTeamsToFormLargeTeam: number = 2;
+    private readonly largeTeamDelayMs: number = 1600;
+    private readonly largeTeamTicketCloseRate: number = 22;
 
     constructor() {}
 
@@ -48,5 +58,27 @@ export class Company {
 
     canFormSmallTeam(): Boolean {
         return this.employees.filter(employee => employee.isIndividualContributor()).length >= this.smallTeamSize;
+    }
+
+    canFormMediumTeam(): Boolean {
+        return this.smallTeams.length >= this.necessarySmallTeamsToFormMediumTeam;
+    }
+
+    formMediumTeam(companyService: CompanyService): void {
+        if (!this.canFormMediumTeam()) return;
+        this.smallTeams.slice(0, this.necessarySmallTeamsToFormMediumTeam).forEach(team => team.disbandTeam());
+        this.smallTeams.splice(0, this.necessarySmallTeamsToFormMediumTeam);
+        this.mediumTeams.push(new Team(companyService, this.mediumTeamDelayMs, this.mediumTeamTicketCloseRate));
+    }
+
+    canFormLargeTeam(): Boolean {
+        return this.mediumTeams.length >= this.necessaryMediumTeamsToFormLargeTeam;
+    }
+
+    formLargeTeam(companyService: CompanyService): void {
+        if (!this.canFormLargeTeam()) return;
+        this.mediumTeams.slice(0, this.necessaryMediumTeamsToFormLargeTeam).forEach(team => team.disbandTeam());
+        this.mediumTeams.splice(0, this.necessaryMediumTeamsToFormLargeTeam);
+        this.largeTeams.push(new Team(companyService, this.largeTeamDelayMs, this.largeTeamTicketCloseRate));
     }
 }

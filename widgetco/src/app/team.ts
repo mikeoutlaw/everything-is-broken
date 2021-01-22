@@ -8,4 +8,8 @@ export class Team {
             this.companyService.closeTickets(ticketCloseRate);
         }, delayMs);
     }
+
+    disbandTeam(): void {
+        clearInterval(this.intervalId);
+    }
 }

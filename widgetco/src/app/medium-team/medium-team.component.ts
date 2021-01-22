@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CompanyService } from '../company.service';
 
 @Component({
-  selector: 'app-small-teams',
-  templateUrl: './small-teams.component.html',
-  styleUrls: ['./small-teams.component.css']
+  selector: 'app-medium-team',
+  templateUrl: './medium-team.component.html',
+  styleUrls: ['./medium-team.component.css']
 })
-export class SmallTeamsComponent implements OnInit {
+export class MediumTeamComponent implements OnInit {
   company: any;
 
   constructor(private companyService: CompanyService) { }
@@ -16,10 +16,10 @@ export class SmallTeamsComponent implements OnInit {
   }
 
   onFormTeamClick(): void {
-    this.companyService.formSmallTeam();
+    this.companyService.formMediumTeam();
   }
 
   canFormTeam(): Boolean {
-    return this.companyService.canFormSmallTeam();
+    return this.companyService.canFormMediumTeam();
   }
 }

@@ -25,6 +25,13 @@ export class CompanyService {
     return this.company.hireNewEmployee(this, cost);
   }
 
+  /**
+   * Returns a cost between the min and max new host cost, exclusively.
+   */
+  getNewHireCost(): number {
+    return Math.random() * (this.maxNewHireCost - this.minNewHireCost) + this.minNewHireCost;
+  }
+
   formSmallTeam(): void {
     this.company.formSmallTeam(this);
   }
@@ -33,10 +40,19 @@ export class CompanyService {
     return this.company.canFormSmallTeam();
   }
 
-  /**
-   * Returns a cost between the min and max new host cost, exclusively.
-   */
-  getNewHireCost(): number {
-    return Math.random() * (this.maxNewHireCost - this.minNewHireCost) + this.minNewHireCost;
+  canFormMediumTeam(): Boolean {
+    return this.company.canFormMediumTeam();
+  }
+
+  formMediumTeam(): void {
+    this.company.formMediumTeam(this);
+  }
+
+  canFormLargeTeam(): Boolean {
+    return this.company.canFormLargeTeam();
+  }
+
+  formLargeTeam(): void {
+    return this.company.formLargeTeam(this);
   }
 }
