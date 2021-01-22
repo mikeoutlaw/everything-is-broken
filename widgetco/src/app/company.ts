@@ -15,17 +15,17 @@ export class Company {
     readonly maxTicketValue: number = .18;
     readonly minTicketValue: number = .07;
 
-    private readonly smallTeamSize: number = 5;
-    private readonly smallTeamDelayMs: number = 800;
-    private readonly smallTeamTicketCloseRate: number = 5;
+    readonly smallTeamSize: number = 5;
+    readonly smallTeamDelayMs: number = 800;
+    readonly smallTeamTicketCloseRate: number = 5;
 
-    private readonly necessarySmallTeamsToFormMediumTeam: number = 2;
-    private readonly mediumTeamDelayMs: number = 1100;
-    private readonly mediumTeamTicketCloseRate: number = 13;
+    readonly necessarySmallTeamsToFormMediumTeam: number = 2;
+    readonly mediumTeamDelayMs: number = 1100;
+    readonly mediumTeamTicketCloseRate: number = 13;
 
-    private readonly necessaryMediumTeamsToFormLargeTeam: number = 2;
-    private readonly largeTeamDelayMs: number = 1600;
-    private readonly largeTeamTicketCloseRate: number = 22;
+    readonly necessaryMediumTeamsToFormLargeTeam: number = 2;
+    readonly largeTeamDelayMs: number = 1600;
+    readonly largeTeamTicketCloseRate: number = 22;
 
     constructor() {}
 
