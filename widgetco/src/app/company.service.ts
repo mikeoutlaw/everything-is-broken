@@ -25,6 +25,10 @@ export class CompanyService {
     return this.company.hireNewEmployee(this, cost);
   }
 
+  formSmallTeam(): void {
+    this.company.formSmallTeam(this);
+  }
+
   /**
    * Returns a cost between the min and max new host cost, exclusively.
    */

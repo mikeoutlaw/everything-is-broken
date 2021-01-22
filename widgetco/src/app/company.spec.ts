@@ -1,5 +1,6 @@
 import { Company } from './company';
 import { CompanyService } from './company.service';
+import { Employee } from './employee';
 
 describe('Company', () => {
   it('should create an instance', () => {
@@ -33,5 +34,39 @@ describe('Company', () => {
     expect(result).toBeFalse();
     expect(company.employees.length).toBe(0);
     expect(company.hiringBudget).toBe(expectedHiringBudget);
+  });
+
+  it('should form small team when there are enough individual contributors', () => {
+    // Arrange
+    let company = new Company();
+    let service = new CompanyService();
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+
+    // Act
+    company.formSmallTeam(service);
+
+    // Arrange
+    expect(company.smallTeams.length).toBe(1);
+    expect(company.employees.every(employee => employee.isIndividualContributor() === false)).toBeTrue();
+  });
+
+  it('should not form a small team when there are not enough individual contributors', () => {
+    // Arrange
+    let company = new Company();
+    let service = new CompanyService();
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+
+    // Act
+    company.formSmallTeam(service);
+
+    // Arrange
+    expect(company.smallTeams.length).toBe(0);
+    expect(company.employees.every(employee => employee.isIndividualContributor())).toBeTrue();
   });
 });

@@ -1,8 +1,11 @@
 import { CompanyService } from "./company.service";
 import { Employee } from "./employee";
+import { SmallTeam } from "./small-team";
 
 export class Company {
     employees: Employee[] = [];
+    smallTeams: SmallTeam[] = [];
+
     hiringBudget: number = 5;
     ticketsClosed: number = 0;
     personnelCost: number = 0;
@@ -30,5 +33,13 @@ export class Company {
         this.hiringBudget -= cost;
         this.personnelCost += cost;
         return true;
+    }
+
+    formSmallTeam(companyService: CompanyService): void {
+        const smallTeamSize: number = 5;
+        let individualContributors = this.employees.filter(employee => employee.isIndividualContributor());
+        if (individualContributors.length < smallTeamSize) return;
+        individualContributors.slice(0, smallTeamSize).forEach(employee => employee.moveToTeam());
+        this.smallTeams.push(new SmallTeam(companyService));
     }
 }
