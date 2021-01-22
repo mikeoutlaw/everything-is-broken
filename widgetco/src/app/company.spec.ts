@@ -69,4 +69,54 @@ describe('Company', () => {
     expect(company.smallTeams.length).toBe(0);
     expect(company.employees.every(employee => employee.isIndividualContributor())).toBeTrue();
   });
+
+  it('should return true when there are enough individual contributors to form a small team', () => {
+    // Arrange
+    let company = new Company();
+    let service = new CompanyService();
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+
+    // Act
+    let result = company.canFormSmallTeam();
+
+    // Assert
+    expect(result).toBeTrue();
+  });
+
+  it('should return false when there are not enough individual contributors to form a small team', () => {
+    // Arrange
+    let company = new Company();
+    let service = new CompanyService();
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+
+    // Act
+    let result = company.canFormSmallTeam();
+
+    // Assert
+    expect(result).toBeFalse();
+  });
+
+  it('should return false when there are not enough individual contributors to form a small team after forming a small team', () => {
+    // Arrange
+    let company = new Company();
+    let service = new CompanyService();
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.employees.push(new Employee(service));
+    company.formSmallTeam(service);
+
+    // Act
+    let result = company.canFormSmallTeam();
+
+    // Assert
+    expect(result).toBeFalse();
+  });
 });

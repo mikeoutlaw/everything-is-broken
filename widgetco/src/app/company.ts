@@ -13,6 +13,7 @@ export class Company {
     readonly maxTicketValue: number = .18;
     readonly minTicketValue: number = .07;
 
+    private readonly smallTeamSize: number = 5;
     private readonly smallTeamDelayMs: number = 800;
     private readonly smallTeamTicketCloseRate: number = 5;
 
@@ -39,10 +40,13 @@ export class Company {
     }
 
     formSmallTeam(companyService: CompanyService): void {
-        const smallTeamSize: number = 5;
         let individualContributors = this.employees.filter(employee => employee.isIndividualContributor());
-        if (individualContributors.length < smallTeamSize) return;
-        individualContributors.slice(0, smallTeamSize).forEach(employee => employee.moveToTeam());
+        if (individualContributors.length < this.smallTeamSize) return;
+        individualContributors.slice(0, this.smallTeamSize).forEach(employee => employee.moveToTeam());
         this.smallTeams.push(new Team(companyService, this.smallTeamDelayMs, this.smallTeamTicketCloseRate));
+    }
+
+    canFormSmallTeam(): Boolean {
+        return this.employees.filter(employee => employee.isIndividualContributor()).length >= this.smallTeamSize;
     }
 }

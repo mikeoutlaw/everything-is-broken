@@ -7,11 +7,13 @@ import { CompanyService } from '../company.service';
   styleUrls: ['./individual-contributors.component.css']
 })
 export class IndividualContributorsComponent implements OnInit {
+  company: any;
   newHireCost: number = 5;
 
   constructor(private companyService: CompanyService) { }
 
   ngOnInit(): void {
+    this.companyService.getCompany().subscribe(company => this.company = company);
   }
 
   onNewHireClick(): void {

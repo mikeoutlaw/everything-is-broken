@@ -1,5 +1,5 @@
 <h4>Individual Contributors</h4>
 <p>
-    <button (click)="onNewHireClick()">New Hire</button><br />
+    <button [disabled]="company.hiringBudget < newHireCost" (click)="onNewHireClick()">New Hire</button><br />
     Hiring cost: {{newHireCost|currency:'USD':'$'}}
 </p>

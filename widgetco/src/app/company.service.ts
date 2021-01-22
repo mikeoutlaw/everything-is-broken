@@ -29,6 +29,10 @@ export class CompanyService {
     this.company.formSmallTeam(this);
   }
 
+  canFormSmallTeam(): Boolean {
+    return this.company.canFormSmallTeam();
+  }
+
   /**
    * Returns a cost between the min and max new host cost, exclusively.
    */

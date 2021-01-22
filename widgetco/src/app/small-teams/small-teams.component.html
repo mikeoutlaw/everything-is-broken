@@ -1,5 +1,5 @@
 <h4>Small Teams</h4>
 <p>
-    <button (click)="onFormTeamClick()">Form Team</button><br />
+    <button [disabled]="!canFormSmallTeam()" (click)="onFormTeamClick()">Form Team</button><br />
     Count: {{company.smallTeams.length|number}}
 </p>
