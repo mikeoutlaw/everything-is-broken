@@ -1,6 +1,7 @@
 import { CompanyService } from "./company.service";
 import { Developer } from "./developer";
 import { Employee } from "./employee";
+import { HiringManager } from "./hiring-manager";
 import { Team } from "./team";
 
 export class Company {
@@ -28,6 +29,8 @@ export class Company {
     readonly largeTeamDelayMs: number = 1600;
     readonly largeTeamTicketCloseRate: number = 22;
 
+    readonly necessaryLargeTeamsForNewHiringManager: number = 4;
+
     constructor() {}
 
     /**
@@ -41,10 +44,19 @@ export class Company {
         this.capital += numTickets * (Math.random() * (((this.maxTicketValue - this.minTicketValue) + this.minTicketValue)));
     }
 
-    hireNewEmployee(companyService: CompanyService, cost: number): Boolean {
+    hireNewDeveloper(companyService: CompanyService, cost: number): Boolean {
         if (cost > this.capital) return false;
 
         this.employees.push(new Developer(companyService));
+        this.capital -= cost;
+        this.personnelCost += cost;
+        return true;
+    }
+
+    hireNewHiringManager(cost: number): Boolean {
+        if (cost > this.capital) return false;
+
+        this.employees.push(new HiringManager());
         this.capital -= cost;
         this.personnelCost += cost;
         return true;
@@ -81,5 +93,17 @@ export class Company {
         this.mediumTeams.slice(0, this.necessaryMediumTeamsToFormLargeTeam).forEach(team => team.disbandTeam());
         this.mediumTeams.splice(0, this.necessaryMediumTeamsToFormLargeTeam);
         this.largeTeams.push(new Team(companyService, this.largeTeamDelayMs, this.largeTeamTicketCloseRate));
+    }
+
+    canHireNewHiringManager(cost: number): Boolean {
+        if (this.capital < cost) return false;
+
+        let currentHiringMgrs = this.employees.filter(employee => employee instanceof HiringManager).length;
+        let excessLargeTeams = this.largeTeams.length - (this.necessaryLargeTeamsForNewHiringManager * currentHiringMgrs);
+        if (excessLargeTeams >= this.necessaryLargeTeamsForNewHiringManager) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -1,6 +1,7 @@
 import { Company } from './company';
 import { CompanyService } from './company.service';
 import { Developer } from './developer';
+import { HiringManager } from './hiring-manager';
 import { Team } from './team';
 
 describe('Company', () => {
@@ -29,7 +30,7 @@ describe('Company', () => {
     company.capital = expectedHiringBudget;
 
     // Act
-    let result = company.hireNewEmployee(service, hiringCost);
+    let result = company.hireNewDeveloper(service, hiringCost);
 
     // Assert
     expect(result).toBeFalse();
@@ -202,6 +203,68 @@ describe('Company', () => {
 
     // Act
     let result = company.canFormLargeTeam();
+
+    // Assert
+    expect(result).toBeFalse();
+  });
+
+  it('should allow hiring new hiring managers when there are multiples of 4 large teams', () => {
+    // Arrange
+    let company = new Company();
+    let service = new CompanyService();
+    const capital = 10;
+    const cost = 1;
+    company.capital = capital;
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+
+    // Act
+    let result = company.canHireNewHiringManager(cost);
+
+    // Assert
+    expect(result).toBeTrue();
+  });
+
+  it('should allow hiring new hiring managers when there are 4 or more large teams and no current hiring managers', () => {
+    // Arrange
+    let company = new Company();
+    let service = new CompanyService();
+    const capital = 10;
+    const cost = 1;
+    company.capital = capital;
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+
+    // Act
+    let result = company.canHireNewHiringManager(cost);
+
+    // Assert
+    expect(result).toBeTrue();
+  });
+
+  it('should not allow hiring new hiring managers when there are 4 or more large teams and one or more hiring managers', () => {
+    // Arrange
+    let company = new Company();
+    let service = new CompanyService();
+    const capital = 10;
+    const cost = 1;
+    company.capital = capital;
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.employees.push(new HiringManager());
+
+    // Act
+    let result = company.canHireNewHiringManager(cost);
 
     // Assert
     expect(result).toBeFalse();

@@ -17,7 +17,7 @@ export class IndividualContributorsComponent implements OnInit {
   }
 
   onNewHireClick(): void {
-    let hired = this.companyService.hireNewEmployee(this.newHireCost);
+    let hired = this.companyService.hireNewDeveloper(this.newHireCost);
     if (hired) this.newHireCost = this.companyService.getNewHireCost();
   }
 }

@@ -21,8 +21,12 @@ export class CompanyService {
     return of(this.company);
   }
 
-  hireNewEmployee(cost: number): Boolean {
-    return this.company.hireNewEmployee(this, cost);
+  hireNewDeveloper(cost: number): Boolean {
+    return this.company.hireNewDeveloper(this, cost);
+  }
+
+  hireNewHiringManager(cost: number): Boolean {
+    return this.company.hireNewHiringManager(cost);
   }
 
   /**
@@ -54,5 +58,9 @@ export class CompanyService {
 
   formLargeTeam(): void {
     return this.company.formLargeTeam(this);
+  }
+
+  canHireNewHiringManager(cost: number): Boolean {
+    return this.company.canHireNewHiringManager(cost);
   }
 }

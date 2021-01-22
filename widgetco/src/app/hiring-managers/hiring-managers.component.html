@@ -1,3 +1,3 @@
 <h4>Hiring Managers</h4>
-<button>Hire</button><br />
-Hiring cost: $0.00
+<button [disabled]="!canHireNewHiringManager()" (click)="onNewHireClick()">Hire New Hiring Mgr</button><br />
+Hiring cost: {{newHireCost|currency:'USD':'$'}}
