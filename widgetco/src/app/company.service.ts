@@ -7,11 +7,13 @@ import { Company } from './company';
 })
 export class CompanyService {
   private company: Company = new Company();
+  private ticketValue: number = .15;
 
   constructor() { }
 
   closeTickets(numTickets: number): void {
     this.company.ticketsClosed += numTickets;
+    this.company.hiringBudget += numTickets * this.ticketValue;
   }
 
   getCompany(): Observable<Company> {
