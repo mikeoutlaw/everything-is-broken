@@ -8,6 +8,7 @@ import { IndividualContributorsComponent } from './individual-contributors/indiv
 import { SmallTeamsComponent } from './small-teams/small-teams.component';
 import { MediumTeamComponent } from './medium-team/medium-team.component';
 import { LargeTeamComponent } from './large-team/large-team.component';
+import { HiringManagersComponent } from './hiring-managers/hiring-managers.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { LargeTeamComponent } from './large-team/large-team.component';
     IndividualContributorsComponent,
     SmallTeamsComponent,
     MediumTeamComponent,
-    LargeTeamComponent
+    LargeTeamComponent,
+    HiringManagersComponent
   ],
   imports: [
     BrowserModule,

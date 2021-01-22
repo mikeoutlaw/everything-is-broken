@@ -1,5 +1,3 @@
 <h4>Medium Teams</h4>
-<p>
-    <button [disabled]="!canFormTeam()" (click)="onFormTeamClick()">Form Team</button><br />
-    Count: {{company.mediumTeams.length|number}}
-</p>
+<button [disabled]="!canFormTeam()" (click)="onFormTeamClick()">Form Team</button><br />
+Count: {{company.mediumTeams.length|number}}
