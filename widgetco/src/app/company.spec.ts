@@ -1,6 +1,6 @@
 import { Company } from './company';
 import { CompanyService } from './company.service';
-import { Employee } from './employee';
+import { Developer } from './developer';
 import { Team } from './team';
 
 describe('Company', () => {
@@ -26,7 +26,7 @@ describe('Company', () => {
     let service: CompanyService = new CompanyService();
     const expectedHiringBudget = 5;
     const hiringCost = 6
-    company.hiringBudget = expectedHiringBudget;
+    company.capital = expectedHiringBudget;
 
     // Act
     let result = company.hireNewEmployee(service, hiringCost);
@@ -34,52 +34,52 @@ describe('Company', () => {
     // Assert
     expect(result).toBeFalse();
     expect(company.employees.length).toBe(0);
-    expect(company.hiringBudget).toBe(expectedHiringBudget);
+    expect(company.capital).toBe(expectedHiringBudget);
   });
 
   it('should form small team when there are enough individual contributors', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
 
     // Act
     company.formSmallTeam(service);
 
     // Arrange
     expect(company.smallTeams.length).toBe(1);
-    expect(company.employees.every(employee => employee.isIndividualContributor() === false)).toBeTrue();
+    expect(company.employees.every(employee => employee instanceof Developer && employee.isIndividualContributor() === false)).toBeTrue();
   });
 
   it('should not form a small team when there are not enough individual contributors', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
 
     // Act
     company.formSmallTeam(service);
 
     // Arrange
     expect(company.smallTeams.length).toBe(0);
-    expect(company.employees.every(employee => employee.isIndividualContributor())).toBeTrue();
+    expect(company.employees.every(employee => employee instanceof Developer && employee.isIndividualContributor())).toBeTrue();
   });
 
   it('should return true when there are enough individual contributors to form a small team', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
 
     // Act
     let result = company.canFormSmallTeam();
@@ -92,8 +92,8 @@ describe('Company', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
 
     // Act
     let result = company.canFormSmallTeam();
@@ -106,12 +106,12 @@ describe('Company', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
-    company.employees.push(new Employee(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(service));
     company.formSmallTeam(service);
 
     // Act

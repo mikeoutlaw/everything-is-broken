@@ -1,4 +1,5 @@
 import { CompanyService } from "./company.service";
+import { Developer } from "./developer";
 import { Employee } from "./employee";
 import { Team } from "./team";
 
@@ -8,7 +9,7 @@ export class Company {
     mediumTeams: Team[] = [];
     largeTeams: Team[] = [];
 
-    hiringBudget: number = 5;
+    capital: number = 5;
     ticketsClosed: number = 0;
     personnelCost: number = 0;
 
@@ -37,27 +38,27 @@ export class Company {
      */
     closeTickets(numTickets: number): void {
         this.ticketsClosed += numTickets;
-        this.hiringBudget += numTickets * (Math.random() * (((this.maxTicketValue - this.minTicketValue) + this.minTicketValue)));
+        this.capital += numTickets * (Math.random() * (((this.maxTicketValue - this.minTicketValue) + this.minTicketValue)));
     }
 
     hireNewEmployee(companyService: CompanyService, cost: number): Boolean {
-        if (cost > this.hiringBudget) return false;
+        if (cost > this.capital) return false;
 
-        this.employees.push(new Employee(companyService));
-        this.hiringBudget -= cost;
+        this.employees.push(new Developer(companyService));
+        this.capital -= cost;
         this.personnelCost += cost;
         return true;
     }
 
     formSmallTeam(companyService: CompanyService): void {
-        let individualContributors = this.employees.filter(employee => employee.isIndividualContributor());
+        let individualContributors = this.employees.filter(employee => employee instanceof Developer && employee.isIndividualContributor());
         if (individualContributors.length < this.smallTeamSize) return;
-        individualContributors.slice(0, this.smallTeamSize).forEach(employee => employee.moveToTeam());
+        individualContributors.slice(0, this.smallTeamSize).forEach(employee => employee instanceof Developer && employee.moveToTeam());
         this.smallTeams.push(new Team(companyService, this.smallTeamDelayMs, this.smallTeamTicketCloseRate));
     }
 
     canFormSmallTeam(): Boolean {
-        return this.employees.filter(employee => employee.isIndividualContributor()).length >= this.smallTeamSize;
+        return this.employees.filter(employee => employee instanceof Developer && employee.isIndividualContributor()).length >= this.smallTeamSize;
     }
 
     canFormMediumTeam(): Boolean {
