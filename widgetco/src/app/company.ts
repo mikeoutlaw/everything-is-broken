@@ -1,10 +1,10 @@
 import { CompanyService } from "./company.service";
 import { Employee } from "./employee";
-import { SmallTeam } from "./small-team";
+import { Team } from "./team";
 
 export class Company {
     employees: Employee[] = [];
-    smallTeams: SmallTeam[] = [];
+    smallTeams: Team[] = [];
 
     hiringBudget: number = 5;
     ticketsClosed: number = 0;
@@ -12,6 +12,9 @@ export class Company {
 
     readonly maxTicketValue: number = .18;
     readonly minTicketValue: number = .07;
+
+    private readonly smallTeamDelayMs: number = 800;
+    private readonly smallTeamTicketCloseRate: number = 5;
 
     constructor() {}
 
@@ -40,6 +43,6 @@ export class Company {
         let individualContributors = this.employees.filter(employee => employee.isIndividualContributor());
         if (individualContributors.length < smallTeamSize) return;
         individualContributors.slice(0, smallTeamSize).forEach(employee => employee.moveToTeam());
-        this.smallTeams.push(new SmallTeam(companyService));
+        this.smallTeams.push(new Team(companyService, this.smallTeamDelayMs, this.smallTeamTicketCloseRate));
     }
 }
