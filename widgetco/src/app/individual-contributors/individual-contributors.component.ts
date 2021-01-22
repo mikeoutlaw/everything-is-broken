@@ -7,6 +7,7 @@ import { CompanyService } from '../company.service';
   styleUrls: ['./individual-contributors.component.css']
 })
 export class IndividualContributorsComponent implements OnInit {
+  newHireCost: number = 5;
 
   constructor(private companyService: CompanyService) { }
 
@@ -14,6 +15,7 @@ export class IndividualContributorsComponent implements OnInit {
   }
 
   onNewHireClick(): void {
-    this.companyService.hireNewEmployee(1);
+    this.companyService.hireNewEmployee(this.newHireCost);
+    this.newHireCost = this.companyService.getNewHireCost();
   }
 }
