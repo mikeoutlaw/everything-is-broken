@@ -7,7 +7,6 @@ import { Company } from './company';
 })
 export class CompanyService {
   private company: Company = new Company();
-  private ticketValue: number = .15;
 
   readonly maxNewHireCost: number = 10;
   readonly minNewHireCost: number = 3;
@@ -15,16 +14,15 @@ export class CompanyService {
   constructor() { }
 
   closeTickets(numTickets: number): void {
-    this.company.ticketsClosed += numTickets;
-    this.company.hiringBudget += numTickets * (Math.random() * (((.17 - .08 + 1) + .08)));
+    this.company.closeTickets(numTickets);
   }
 
   getCompany(): Observable<Company> {
     return of(this.company);
   }
 
-  hireNewEmployee(cost: number): void {
-    this.company.hireNewEmployee(this, cost);
+  hireNewEmployee(cost: number): Boolean {
+    return this.company.hireNewEmployee(this, cost);
   }
 
   /**
