@@ -15,7 +15,7 @@ export class IndividualContributorsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  canHireNewDeveloper(): Boolean {
+  canHireNewDeveloper(): boolean {
     return this.companyService.canHireNewDeveloper();
   }
 

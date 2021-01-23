@@ -3,6 +3,7 @@ import { CompanyService } from './company.service';
 import { Developer } from './developer';
 import { HiringManager } from './hiring-manager';
 import { Team } from './team';
+import { noopfn } from './utils/globals';
 
 describe('Company', () => {
   it('should create an instance', () => {
@@ -38,7 +39,6 @@ describe('Company', () => {
   it('should form small team when there are enough individual contributors', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
     company.employees.push(new Developer(company));
     company.employees.push(new Developer(company));
     company.employees.push(new Developer(company));
@@ -46,7 +46,7 @@ describe('Company', () => {
     company.employees.push(new Developer(company));
 
     // Act
-    company.formSmallTeam(service);
+    company.formSmallTeam();
 
     // Arrange
     expect(company.smallTeams.length).toBe(1);
@@ -56,13 +56,12 @@ describe('Company', () => {
   it('should not form a small team when there are not enough individual contributors', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
     company.employees.push(new Developer(company));
     company.employees.push(new Developer(company));
     company.employees.push(new Developer(company));
 
     // Act
-    company.formSmallTeam(service);
+    company.formSmallTeam();
 
     // Arrange
     expect(company.smallTeams.length).toBe(0);
@@ -101,14 +100,13 @@ describe('Company', () => {
   it('should return false when there are not enough individual contributors to form a small team after forming a small team', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
     company.employees.push(new Developer(company));
     company.employees.push(new Developer(company));
     company.employees.push(new Developer(company));
     company.employees.push(new Developer(company));
     company.employees.push(new Developer(company));
     company.employees.push(new Developer(company));
-    company.formSmallTeam(service);
+    company.formSmallTeam();
 
     // Act
     let result = company.canFormSmallTeam();
@@ -120,8 +118,7 @@ describe('Company', () => {
   it('should return false when there are not enough small teams to form a medium team', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
-    company.smallTeams.push(new Team(service, company.smallTeamDelayMs, company.smallTeamTicketCloseRate));
+    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
 
     // Act
     let result = company.canFormMediumTeam();
@@ -133,9 +130,8 @@ describe('Company', () => {
   it('should return true when there are enough small teams to form a medium team', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
-    company.smallTeams.push(new Team(service, company.smallTeamDelayMs, company.smallTeamTicketCloseRate));
-    company.smallTeams.push(new Team(service, company.smallTeamDelayMs, company.smallTeamTicketCloseRate));
+    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
+    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
 
     // Act
     let result = company.canFormMediumTeam();
@@ -147,11 +143,10 @@ describe('Company', () => {
   it('should return false when there are not enough small teams to form a medium team after forming a medium team', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
-    company.smallTeams.push(new Team(service, company.smallTeamDelayMs, company.smallTeamTicketCloseRate));
-    company.smallTeams.push(new Team(service, company.smallTeamDelayMs, company.smallTeamTicketCloseRate));
-    company.smallTeams.push(new Team(service, company.smallTeamDelayMs, company.smallTeamTicketCloseRate));
-    company.formMediumTeam(service);
+    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
+    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
+    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
+    company.formMediumTeam();
 
     // Act
     let result = company.canFormMediumTeam();
@@ -163,8 +158,7 @@ describe('Company', () => {
   it('should return false when there are not enough medium teams to form a large team', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
-    company.mediumTeams.push(new Team(service, company.mediumTeamDelayMs, company.mediumTeamTicketCloseRate));
+    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
 
     // Act
     let result = company.canFormLargeTeam();
@@ -176,9 +170,8 @@ describe('Company', () => {
   it('should return true when there are enough medium teams to form a large team', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
-    company.mediumTeams.push(new Team(service, company.mediumTeamDelayMs, company.mediumTeamTicketCloseRate));
-    company.mediumTeams.push(new Team(service, company.mediumTeamDelayMs, company.mediumTeamTicketCloseRate));
+    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
+    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
 
     // Act
     let result = company.canFormLargeTeam();
@@ -190,11 +183,10 @@ describe('Company', () => {
   it('should return false when there are not enough medium teams to form a large team after forming a large team', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
-    company.mediumTeams.push(new Team(service, company.mediumTeamDelayMs, company.mediumTeamTicketCloseRate));
-    company.mediumTeams.push(new Team(service, company.mediumTeamDelayMs, company.mediumTeamTicketCloseRate));
-    company.mediumTeams.push(new Team(service, company.mediumTeamDelayMs, company.mediumTeamTicketCloseRate));
-    company.formLargeTeam(service);
+    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
+    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
+    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
+    company.formLargeTeam();
 
     // Act
     let result = company.canFormLargeTeam();
@@ -206,13 +198,12 @@ describe('Company', () => {
   it('should allow hiring new hiring managers when there are multiples of 4 large teams', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
     company.capital = 10;
     company.newHiringManagerCost = 1;
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
 
     // Act
     let result = company.canHireNewHiringManager();
@@ -224,15 +215,14 @@ describe('Company', () => {
   it('should allow hiring new hiring managers when there are 4 or more large teams and no current hiring managers', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
     company.capital = 10;
     company.newHiringManagerCost = 1;
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
 
     // Act
     let result = company.canHireNewHiringManager();
@@ -244,15 +234,14 @@ describe('Company', () => {
   it('should not allow hiring new hiring managers when there are 4 or more large teams and one or more hiring managers', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
     company.capital = 10;
     company.newHiringManagerCost = 1;
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
     company.employees.push(new HiringManager(company));
 
     // Act

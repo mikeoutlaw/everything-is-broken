@@ -27,34 +27,34 @@ export class CompanyService {
   }
 
   formSmallTeam(): void {
-    this.company.formSmallTeam(this);
+    this.company.formSmallTeam();
   }
 
-  canFormSmallTeam(): Boolean {
+  canFormSmallTeam(): boolean {
     return this.company.canFormSmallTeam();
   }
 
-  canFormMediumTeam(): Boolean {
+  canFormMediumTeam(): boolean {
     return this.company.canFormMediumTeam();
   }
 
   formMediumTeam(): void {
-    this.company.formMediumTeam(this);
+    this.company.formMediumTeam();
   }
 
-  canFormLargeTeam(): Boolean {
+  canFormLargeTeam(): boolean {
     return this.company.canFormLargeTeam();
   }
 
   formLargeTeam(): void {
-    return this.company.formLargeTeam(this);
+    return this.company.formLargeTeam();
   }
 
-  canHireNewDeveloper(): Boolean {
+  canHireNewDeveloper(): boolean {
     return this.company.canHireNewDeveloper();
   }
 
-  canHireNewHiringManager(): Boolean {
+  canHireNewHiringManager(): boolean {
     return this.company.canHireNewHiringManager();
   }
 
@@ -66,7 +66,11 @@ export class CompanyService {
     return this.company.getHiringManagerCount();
   }
 
-  canFormHRTeam(): Boolean {
+  canFormHRTeam(): boolean {
     return this.company.canFormHRTeam();
+  }
+
+  formHrTeam(): void {
+    this.company.formHrTeam();
   }
 }

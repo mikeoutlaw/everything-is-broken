@@ -1,5 +1,3 @@
-import { of } from "rxjs";
-import { CompanyService } from "./company.service";
 import { Developer } from "./developer";
 import { Employee } from "./employee";
 import { HiringManager } from "./hiring-manager";
@@ -10,6 +8,7 @@ export class Company {
     smallTeams: Team[] = [];
     mediumTeams: Team[] = [];
     largeTeams: Team[] = [];
+    hrTeams: Team[] = [];
 
     newDeveloperCost: number = 5;
     readonly maxNewHireCost: number = 10;
@@ -39,6 +38,7 @@ export class Company {
 
     readonly necessaryLargeTeamsForNewHiringManager: number = 4;
     readonly necessaryHiringManagersForHRTeam: number = 3;
+    readonly hrTeamDelayMs: number = 2000;
 
     constructor() {
         this.newHiringManagerCost = this.getNewHiringManagerCost();
@@ -84,47 +84,55 @@ export class Company {
         return this.getNewHireCost() * this.hiringManagerCostOverhead;
     }
 
-    formSmallTeam(companyService: CompanyService): void {
+    formSmallTeam(): void {
         let individualContributors = this.employees.filter(employee => employee instanceof Developer && employee.isIndividualContributor());
-        if (individualContributors.length < this.smallTeamSize) return;
-        individualContributors.slice(0, this.smallTeamSize).forEach(employee => employee instanceof Developer && employee.moveToTeam());
-        this.smallTeams.push(new Team(companyService, this.smallTeamDelayMs, this.smallTeamTicketCloseRate));
+        if (!this.canFormSmallTeam()) return;
+        individualContributors
+            .slice(0, this.smallTeamSize)
+            .forEach(employee => employee instanceof Developer && employee.moveToTeam());
+        this.smallTeams.push(new Team(() => this.closeTickets(this.smallTeamTicketCloseRate), this.smallTeamDelayMs));
     }
 
-    canFormSmallTeam(): Boolean {
-        return this.employees.filter(employee => employee instanceof Developer && employee.isIndividualContributor()).length >= this.smallTeamSize;
+    canFormSmallTeam(): boolean {
+        return this.employees
+            .filter(employee => employee instanceof Developer && employee.isIndividualContributor())
+            .length >= this.smallTeamSize;
     }
 
-    canFormMediumTeam(): Boolean {
+    canFormMediumTeam(): boolean {
         return this.smallTeams.length >= this.necessarySmallTeamsToFormMediumTeam;
     }
 
-    formMediumTeam(companyService: CompanyService): void {
+    formMediumTeam(): void {
         if (!this.canFormMediumTeam()) return;
-        this.smallTeams.slice(0, this.necessarySmallTeamsToFormMediumTeam).forEach(team => team.disbandTeam());
+        this.smallTeams
+            .slice(0, this.necessarySmallTeamsToFormMediumTeam)
+            .forEach(team => team.disbandTeam());
         this.smallTeams.splice(0, this.necessarySmallTeamsToFormMediumTeam);
-        this.mediumTeams.push(new Team(companyService, this.mediumTeamDelayMs, this.mediumTeamTicketCloseRate));
+        this.mediumTeams.push(new Team(() => this.closeTickets(this.mediumTeamTicketCloseRate), this.mediumTeamDelayMs));
     }
 
-    canFormLargeTeam(): Boolean {
+    canFormLargeTeam(): boolean {
         return this.mediumTeams.length >= this.necessaryMediumTeamsToFormLargeTeam;
     }
 
-    formLargeTeam(companyService: CompanyService): void {
+    formLargeTeam(): void {
         if (!this.canFormLargeTeam()) return;
-        this.mediumTeams.slice(0, this.necessaryMediumTeamsToFormLargeTeam).forEach(team => team.disbandTeam());
+        this.mediumTeams
+            .slice(0, this.necessaryMediumTeamsToFormLargeTeam)
+            .forEach(team => team.disbandTeam());
         this.mediumTeams.splice(0, this.necessaryMediumTeamsToFormLargeTeam);
-        this.largeTeams.push(new Team(companyService, this.largeTeamDelayMs, this.largeTeamTicketCloseRate));
+        this.largeTeams.push(new Team(() => this.closeTickets(this.largeTeamTicketCloseRate), this.largeTeamDelayMs));
     }
 
-    canHireNewDeveloper(): Boolean {
+    canHireNewDeveloper(): boolean {
         return this.capital >= this.newDeveloperCost;
     }
 
-    canHireNewHiringManager(): Boolean {
+    canHireNewHiringManager(): boolean {
         if (this.capital < this.newHiringManagerCost) return false;
 
-        let currentHiringMgrs = this.employees.filter(employee => employee instanceof HiringManager).length;
+        let currentHiringMgrs = this.employees.filter(employee => employee instanceof HiringManager && !(employee as HiringManager).isPartOfHrTeam()).length;
         let excessLargeTeams = this.largeTeams.length - (this.necessaryLargeTeamsForNewHiringManager * currentHiringMgrs);
         if (excessLargeTeams >= this.necessaryLargeTeamsForNewHiringManager) {
             return true;
@@ -134,14 +142,33 @@ export class Company {
     }
 
     getIndividualContributorCount(): number {
-        return this.employees.filter(employee => employee instanceof Developer && (employee as Developer).isIndividualContributor()).length;
+        return this.employees
+            .filter(employee => employee instanceof Developer && (employee as Developer).isIndividualContributor())
+            .length;
     }
 
     getHiringManagerCount(): number {
-        return this.employees.filter(employee => employee instanceof HiringManager).length;
+        return this.employees
+            .filter(employee => employee instanceof HiringManager && !(employee as HiringManager).isPartOfHrTeam())
+            .length;
     }
 
-    canFormHRTeam(): Boolean {
-        return this.employees.filter(employee => employee instanceof HiringManager).length >= this.necessaryHiringManagersForHRTeam;
+    canFormHRTeam(): boolean {
+        return this.employees
+            .filter(employee => employee instanceof HiringManager && !(employee as HiringManager).isPartOfHrTeam())
+            .length >= this.necessaryHiringManagersForHRTeam;
+    }
+
+    formHrTeam(): void {
+        if (!this.canFormHRTeam()) return;
+        this.employees
+            .filter(employee => employee instanceof HiringManager && !(employee as HiringManager).isPartOfHrTeam())
+            .slice(0, this.necessaryHiringManagersForHRTeam)
+            .forEach(employee => (employee as HiringManager).moveToTeam());
+        this.hrTeams.push(new Team(() => {
+            if (this.canFormSmallTeam()) this.formSmallTeam();
+            if (this.canFormMediumTeam()) this.formMediumTeam();
+            if (this.canFormLargeTeam()) this.formLargeTeam();
+        }, this.hrTeamDelayMs));
     }
 }

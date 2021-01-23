@@ -5,7 +5,7 @@ export class Developer extends Employee{
     private intervalId: any;
     private readonly delayMs: number = 1000;
     private readonly ticketCloseRate: number = 1;
-    private individualContributor: Boolean = true;
+    private individualContributor: boolean = true;
 
     constructor(company: Company) {
         super(company);
@@ -14,7 +14,7 @@ export class Developer extends Employee{
         }, this.delayMs);
     }
 
-    isIndividualContributor(): Boolean {
+    isIndividualContributor(): boolean {
         return this.individualContributor;
     }
 

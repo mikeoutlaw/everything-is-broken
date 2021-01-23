@@ -18,7 +18,7 @@ export class MediumTeamComponent implements OnInit {
     this.companyService.formMediumTeam();
   }
 
-  canFormTeam(): Boolean {
+  canFormTeam(): boolean {
     return this.companyService.canFormMediumTeam();
   }
 }

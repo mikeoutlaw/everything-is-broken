@@ -18,7 +18,7 @@ export class SmallTeamsComponent implements OnInit {
     this.companyService.formSmallTeam();
   }
 
-  canFormTeam(): Boolean {
+  canFormTeam(): boolean {
     return this.companyService.canFormSmallTeam();
   }
 }

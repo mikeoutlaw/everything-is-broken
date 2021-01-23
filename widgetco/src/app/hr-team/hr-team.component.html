@@ -1,3 +1,3 @@
 <h4>HR Team</h4>
-<button [disabled]="!canFormHRTeam()">Form HR Team</button><br />
-Count: 0
+<button [disabled]="!canFormHRTeam()" (click)="formHrTeam()">Form HR Team</button><br />
+Count: {{company?.hrTeams?.length|number}}

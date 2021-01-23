@@ -18,7 +18,7 @@ export class LargeTeamComponent implements OnInit {
     this.companyService.formLargeTeam();
   }
 
-  canFormTeam(): Boolean {
+  canFormTeam(): boolean {
     return this.companyService.canFormLargeTeam();
   }
 }
