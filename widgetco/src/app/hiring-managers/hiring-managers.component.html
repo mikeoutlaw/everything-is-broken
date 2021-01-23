@@ -1,3 +1,4 @@
 <h4>Hiring Managers</h4>
 <button [disabled]="!canHireNewHiringManager()" (click)="onNewHireClick()">Hire New Hiring Mgr</button><br />
+Count: {{getHiringManagerCount()}}<br />
 Hiring cost: {{company.newHiringManagerCost|currency:'USD':'$'}}

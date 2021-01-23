@@ -22,4 +22,8 @@ export class IndividualContributorsComponent implements OnInit {
   onNewHireClick(): void {
     this.companyService.hireNewDeveloper();
   }
+
+  getIndividualContributorCount(): number {
+    return this.companyService.getIndividualContributorCount();
+  }
 }

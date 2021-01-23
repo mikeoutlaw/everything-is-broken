@@ -22,4 +22,8 @@ export class HiringManagersComponent implements OnInit {
   canHireNewHiringManager(): Boolean {
     return this.companyService.canHireNewHiringManager();
   }
+
+  getHiringManagerCount(): number {
+    return this.companyService.getHiringManagerCount();
+  }
 }

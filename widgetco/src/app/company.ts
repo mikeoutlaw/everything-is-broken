@@ -18,7 +18,7 @@ export class Company {
     newHiringManagerCost: number = 0;
     private readonly hiringManagerCostOverhead: number = 1.25;
 
-    capital: number = 5;
+    capital: number = 500;
     ticketsClosed: number = 0;
     personnelCost: number = 0;
 
@@ -130,5 +130,13 @@ export class Company {
         }
 
         return false;
+    }
+
+    getIndividualContributorCount(): number {
+        return this.employees.filter(employee => employee instanceof Developer && (employee as Developer).isIndividualContributor()).length;
+    }
+
+    getHiringManagerCount(): number {
+        return this.employees.filter(employee => employee instanceof HiringManager).length;
     }
 }

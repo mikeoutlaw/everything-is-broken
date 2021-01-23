@@ -57,4 +57,12 @@ export class CompanyService {
   canHireNewHiringManager(): Boolean {
     return this.company.canHireNewHiringManager();
   }
+
+  getIndividualContributorCount(): number {
+    return this.company.getIndividualContributorCount();
+  }
+
+  getHiringManagerCount(): number {
+    return this.company.getHiringManagerCount();
+  }
 }
