@@ -24,12 +24,11 @@ describe('Company', () => {
   it('should not increment employee count if there is not enough budget when attempting to hire', () => {
     // Arrange
     let company: Company = new Company();
-    let service: CompanyService = new CompanyService();
     const expectedHiringBudget = 4;
     company.capital = expectedHiringBudget;
 
     // Act
-    company.hireNewDeveloper(service);
+    company.hireNewDeveloper();
 
     // Assert
     expect(company.employees.length).toBe(0);
@@ -40,11 +39,11 @@ describe('Company', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
 
     // Act
     company.formSmallTeam(service);
@@ -58,9 +57,9 @@ describe('Company', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
 
     // Act
     company.formSmallTeam(service);
@@ -73,12 +72,11 @@ describe('Company', () => {
   it('should return true when there are enough individual contributors to form a small team', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
 
     // Act
     let result = company.canFormSmallTeam();
@@ -90,9 +88,8 @@ describe('Company', () => {
   it('should return false when there are not enough individual contributors to form a small team', () => {
     // Arrange
     let company = new Company();
-    let service = new CompanyService();
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
 
     // Act
     let result = company.canFormSmallTeam();
@@ -105,12 +102,12 @@ describe('Company', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
-    company.employees.push(new Developer(service));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
+    company.employees.push(new Developer(company));
     company.formSmallTeam(service);
 
     // Act
@@ -256,7 +253,7 @@ describe('Company', () => {
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
-    company.employees.push(new HiringManager());
+    company.employees.push(new HiringManager(company));
 
     // Act
     let result = company.canHireNewHiringManager();

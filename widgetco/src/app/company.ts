@@ -1,3 +1,4 @@
+import { of } from "rxjs";
 import { CompanyService } from "./company.service";
 import { Developer } from "./developer";
 import { Employee } from "./employee";
@@ -53,10 +54,10 @@ export class Company {
         this.capital += numTickets * (Math.random() * (((this.maxTicketValue - this.minTicketValue) + this.minTicketValue)));
     }
 
-    hireNewDeveloper(companyService: CompanyService): void {
+    hireNewDeveloper(): void {
         if (this.newDeveloperCost > this.capital) return;
 
-        this.employees.push(new Developer(companyService));
+        this.employees.push(new Developer(this));
         this.capital -= this.newDeveloperCost;
         this.personnelCost += this.newDeveloperCost;
         this.newDeveloperCost = this.getNewHireCost();
@@ -72,7 +73,7 @@ export class Company {
     hireNewHiringManager(): void {
         if (this.newHiringManagerCost > this.capital) return;
 
-        this.employees.push(new HiringManager());
+        this.employees.push(new HiringManager(this));
         this.capital -= this.newHiringManagerCost;
         this.personnelCost += this.newHiringManagerCost;
         this.newHiringManagerCost = this.getNewHiringManagerCost();

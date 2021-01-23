@@ -19,7 +19,7 @@ export class CompanyService {
   }
 
   hireNewDeveloper(): void {
-    this.company.hireNewDeveloper(this);
+    this.company.hireNewDeveloper();
   }
 
   hireNewHiringManager(): void {

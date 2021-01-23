@@ -1,4 +1,4 @@
-import { CompanyService } from "./company.service";
+import { Company } from "./company";
 import { Employee } from "./employee";
 
 export class Developer extends Employee{
@@ -7,10 +7,10 @@ export class Developer extends Employee{
     private readonly ticketCloseRate: number = 1;
     private individualContributor: Boolean = true;
 
-    constructor(private companyService: CompanyService) {
-        super();
+    constructor(company: Company) {
+        super(company);
         this.intervalId = setInterval(() => {
-            this.companyService.closeTickets(this.ticketCloseRate);
+            this.company.closeTickets(this.ticketCloseRate);
         }, this.delayMs);
     }
 
