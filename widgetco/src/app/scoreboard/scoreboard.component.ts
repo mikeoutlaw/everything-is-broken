@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Company } from '../company';
 import { CompanyService } from '../company.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { CompanyService } from '../company.service';
   styleUrls: ['./scoreboard.component.css']
 })
 export class ScoreBoardComponent implements OnInit {
-  company: any; // any seems like a code smell here
+  @Input() company: Company | undefined;
 
   constructor(private companyService: CompanyService) { }
 

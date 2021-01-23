@@ -1,23 +1,27 @@
-<div class="content" role="main">
+<ng-container *ngIf="company$ | async as company">
+  <div class="content" role="main">
 
-  <app-scoreboard></app-scoreboard>
-  <hr />
+    <app-scoreboard></app-scoreboard>
+    <hr />
 
-  <div class="column">
-    <app-individual-contributors></app-individual-contributors>
-    <app-small-teams></app-small-teams>
-    <app-medium-team></app-medium-team>
-    <app-large-team></app-large-team>
+    <div class="column">
+      <app-individual-contributors [company]="company"></app-individual-contributors>
+      <app-small-teams [company]="company"></app-small-teams>
+      <app-medium-team [company]="company"></app-medium-team>
+      <app-large-team [company]="company"></app-large-team>
+    </div>
+
+    <div class="column">
+      <app-hiring-managers [company]="company"></app-hiring-managers>
+      <app-hr-team></app-hr-team>
+      <app-hr-dept></app-hr-dept>
+    </div>
+
+    <div class="column">
+      buildings go here
+    </div>
+
   </div>
-
-  <div class="column">
-    <app-hiring-managers></app-hiring-managers>
-  </div>
-
-  <div class="column">
-    buildings go here
-  </div>
-
-</div>
+</ng-container>
 
 <router-outlet></router-outlet>

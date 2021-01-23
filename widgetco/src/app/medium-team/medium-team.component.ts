@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Company } from '../company';
 import { CompanyService } from '../company.service';
 
 @Component({
@@ -7,13 +8,11 @@ import { CompanyService } from '../company.service';
   styleUrls: ['./medium-team.component.css']
 })
 export class MediumTeamComponent implements OnInit {
-  company: any;
+  @Input() company: Company | undefined;
 
   constructor(private companyService: CompanyService) { }
 
-  ngOnInit(): void {
-    this.companyService.getCompany().subscribe(company => this.company = company);
-  }
+  ngOnInit(): void { }
 
   onFormTeamClick(): void {
     this.companyService.formMediumTeam();

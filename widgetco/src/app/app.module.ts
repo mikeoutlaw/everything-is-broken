@@ -9,6 +9,8 @@ import { SmallTeamsComponent } from './small-teams/small-teams.component';
 import { MediumTeamComponent } from './medium-team/medium-team.component';
 import { LargeTeamComponent } from './large-team/large-team.component';
 import { HiringManagersComponent } from './hiring-managers/hiring-managers.component';
+import { HrDeptComponent } from './hr-dept/hr-dept.component';
+import { HrTeamComponent } from './hr-team/hr-team.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { HiringManagersComponent } from './hiring-managers/hiring-managers.compo
     SmallTeamsComponent,
     MediumTeamComponent,
     LargeTeamComponent,
-    HiringManagersComponent
+    HiringManagersComponent,
+    HrDeptComponent,
+    HrTeamComponent
   ],
   imports: [
     BrowserModule,

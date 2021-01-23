@@ -38,6 +38,7 @@ export class Company {
     readonly largeTeamTicketCloseRate: number = 22;
 
     readonly necessaryLargeTeamsForNewHiringManager: number = 4;
+    readonly necessaryHiringManagersForHRTeam: number = 3;
 
     constructor() {
         this.newHiringManagerCost = this.getNewHiringManagerCost();
@@ -138,5 +139,9 @@ export class Company {
 
     getHiringManagerCount(): number {
         return this.employees.filter(employee => employee instanceof HiringManager).length;
+    }
+
+    canFormHRTeam(): Boolean {
+        return this.employees.filter(employee => employee instanceof HiringManager).length >= this.necessaryHiringManagersForHRTeam;
     }
 }

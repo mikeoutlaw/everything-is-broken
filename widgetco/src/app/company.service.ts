@@ -65,4 +65,8 @@ export class CompanyService {
   getHiringManagerCount(): number {
     return this.company.getHiringManagerCount();
   }
+
+  canFormHRTeam(): Boolean {
+    return this.company.canFormHRTeam();
+  }
 }

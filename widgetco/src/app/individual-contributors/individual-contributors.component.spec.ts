@@ -22,10 +22,4 @@ describe('IndividualContributorsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should have a button', () => {
-    const fixture = TestBed.createComponent(IndividualContributorsComponent);
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('button')).toBeTruthy();
-  });
 });
