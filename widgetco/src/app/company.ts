@@ -10,6 +10,13 @@ export class Company {
     mediumTeams: Team[] = [];
     largeTeams: Team[] = [];
 
+    newDeveloperCost: number = 5;
+    readonly maxNewHireCost: number = 10;
+    readonly minNewHireCost: number = 3;
+
+    newHiringManagerCost: number = 0;
+    private readonly hiringManagerCostOverhead: number = 1.25;
+
     capital: number = 5;
     ticketsClosed: number = 0;
     personnelCost: number = 0;
@@ -31,7 +38,9 @@ export class Company {
 
     readonly necessaryLargeTeamsForNewHiringManager: number = 4;
 
-    constructor() {}
+    constructor() {
+        this.newHiringManagerCost = this.getNewHiringManagerCost();
+    }
 
     /**
      * Increments the closed tickets as well as increments the hiring budget based on the number of tickets closed
@@ -44,22 +53,33 @@ export class Company {
         this.capital += numTickets * (Math.random() * (((this.maxTicketValue - this.minTicketValue) + this.minTicketValue)));
     }
 
-    hireNewDeveloper(companyService: CompanyService, cost: number): Boolean {
-        if (cost > this.capital) return false;
+    hireNewDeveloper(companyService: CompanyService): void {
+        if (this.newDeveloperCost > this.capital) return;
 
         this.employees.push(new Developer(companyService));
-        this.capital -= cost;
-        this.personnelCost += cost;
-        return true;
+        this.capital -= this.newDeveloperCost;
+        this.personnelCost += this.newDeveloperCost;
+        this.newDeveloperCost = this.getNewHireCost();
     }
 
-    hireNewHiringManager(cost: number): Boolean {
-        if (cost > this.capital) return false;
+    /**
+     * Returns a cost between the min and max new host cost, exclusively.
+     */
+    getNewHireCost(): number {
+        return Math.random() * (this.maxNewHireCost - this.minNewHireCost) + this.minNewHireCost;
+    }
+
+    hireNewHiringManager(): void {
+        if (this.newHiringManagerCost > this.capital) return;
 
         this.employees.push(new HiringManager());
-        this.capital -= cost;
-        this.personnelCost += cost;
-        return true;
+        this.capital -= this.newHiringManagerCost;
+        this.personnelCost += this.newHiringManagerCost;
+        this.newHiringManagerCost = this.getNewHiringManagerCost();
+    }
+
+    private getNewHiringManagerCost(): number {
+        return this.getNewHireCost() * this.hiringManagerCostOverhead;
     }
 
     formSmallTeam(companyService: CompanyService): void {
@@ -95,8 +115,12 @@ export class Company {
         this.largeTeams.push(new Team(companyService, this.largeTeamDelayMs, this.largeTeamTicketCloseRate));
     }
 
-    canHireNewHiringManager(cost: number): Boolean {
-        if (this.capital < cost) return false;
+    canHireNewDeveloper(): Boolean {
+        return this.capital >= this.newDeveloperCost;
+    }
+
+    canHireNewHiringManager(): Boolean {
+        if (this.capital < this.newHiringManagerCost) return false;
 
         let currentHiringMgrs = this.employees.filter(employee => employee instanceof HiringManager).length;
         let excessLargeTeams = this.largeTeams.length - (this.necessaryLargeTeamsForNewHiringManager * currentHiringMgrs);

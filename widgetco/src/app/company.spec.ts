@@ -25,15 +25,13 @@ describe('Company', () => {
     // Arrange
     let company: Company = new Company();
     let service: CompanyService = new CompanyService();
-    const expectedHiringBudget = 5;
-    const hiringCost = 6
+    const expectedHiringBudget = 4;
     company.capital = expectedHiringBudget;
 
     // Act
-    let result = company.hireNewDeveloper(service, hiringCost);
+    company.hireNewDeveloper(service);
 
     // Assert
-    expect(result).toBeFalse();
     expect(company.employees.length).toBe(0);
     expect(company.capital).toBe(expectedHiringBudget);
   });
@@ -212,16 +210,15 @@ describe('Company', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    const capital = 10;
-    const cost = 1;
-    company.capital = capital;
+    company.capital = 10;
+    company.newHiringManagerCost = 1;
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
 
     // Act
-    let result = company.canHireNewHiringManager(cost);
+    let result = company.canHireNewHiringManager();
 
     // Assert
     expect(result).toBeTrue();
@@ -231,9 +228,8 @@ describe('Company', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    const capital = 10;
-    const cost = 1;
-    company.capital = capital;
+    company.capital = 10;
+    company.newHiringManagerCost = 1;
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
@@ -242,7 +238,7 @@ describe('Company', () => {
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
 
     // Act
-    let result = company.canHireNewHiringManager(cost);
+    let result = company.canHireNewHiringManager();
 
     // Assert
     expect(result).toBeTrue();
@@ -252,9 +248,8 @@ describe('Company', () => {
     // Arrange
     let company = new Company();
     let service = new CompanyService();
-    const capital = 10;
-    const cost = 1;
-    company.capital = capital;
+    company.capital = 10;
+    company.newHiringManagerCost = 1;
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
     company.largeTeams.push(new Team(service, company.largeTeamDelayMs, company.largeTeamTicketCloseRate));
@@ -264,9 +259,23 @@ describe('Company', () => {
     company.employees.push(new HiringManager());
 
     // Act
-    let result = company.canHireNewHiringManager(cost);
+    let result = company.canHireNewHiringManager();
 
     // Assert
     expect(result).toBeFalse();
+  });
+
+  it('should return a new hire cost between the min and max values when get the hiring cost', () => {
+    // Arrange
+    let company = new Company();
+    const expectedMinHiringCost = company.minNewHireCost;
+    const expectedMaxHiringCost = company.maxNewHireCost;
+
+    // Act
+    var cost = company.getNewHireCost();
+
+    // Assert
+    expect(cost).toBeGreaterThanOrEqual(expectedMinHiringCost);
+    expect(cost).toBeLessThanOrEqual(expectedMaxHiringCost);
   });
 });

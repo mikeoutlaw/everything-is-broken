@@ -8,9 +8,6 @@ import { Company } from './company';
 export class CompanyService {
   private company: Company = new Company();
 
-  readonly maxNewHireCost: number = 10;
-  readonly minNewHireCost: number = 3;
-
   constructor() { }
 
   closeTickets(numTickets: number): void {
@@ -21,19 +18,12 @@ export class CompanyService {
     return of(this.company);
   }
 
-  hireNewDeveloper(cost: number): Boolean {
-    return this.company.hireNewDeveloper(this, cost);
+  hireNewDeveloper(): void {
+    this.company.hireNewDeveloper(this);
   }
 
-  hireNewHiringManager(cost: number): Boolean {
-    return this.company.hireNewHiringManager(cost);
-  }
-
-  /**
-   * Returns a cost between the min and max new host cost, exclusively.
-   */
-  getNewHireCost(): number {
-    return Math.random() * (this.maxNewHireCost - this.minNewHireCost) + this.minNewHireCost;
+  hireNewHiringManager(): void {
+    this.company.hireNewHiringManager();
   }
 
   formSmallTeam(): void {
@@ -60,7 +50,11 @@ export class CompanyService {
     return this.company.formLargeTeam(this);
   }
 
-  canHireNewHiringManager(cost: number): Boolean {
-    return this.company.canHireNewHiringManager(cost);
+  canHireNewDeveloper(): Boolean {
+    return this.company.canHireNewDeveloper();
+  }
+
+  canHireNewHiringManager(): Boolean {
+    return this.company.canHireNewHiringManager();
   }
 }

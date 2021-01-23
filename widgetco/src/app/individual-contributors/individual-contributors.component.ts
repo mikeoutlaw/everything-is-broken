@@ -8,7 +8,6 @@ import { CompanyService } from '../company.service';
 })
 export class IndividualContributorsComponent implements OnInit {
   company: any;
-  newHireCost: number = 5;
 
   constructor(private companyService: CompanyService) { }
 
@@ -16,8 +15,11 @@ export class IndividualContributorsComponent implements OnInit {
     this.companyService.getCompany().subscribe(company => this.company = company);
   }
 
+  canHireNewDeveloper(): Boolean {
+    return this.companyService.canHireNewDeveloper();
+  }
+
   onNewHireClick(): void {
-    let hired = this.companyService.hireNewDeveloper(this.newHireCost);
-    if (hired) this.newHireCost = this.companyService.getNewHireCost();
+    this.companyService.hireNewDeveloper();
   }
 }
