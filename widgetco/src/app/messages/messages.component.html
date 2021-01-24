@@ -1,0 +1,6 @@
+<div class='messages'>
+    <div class='currentMessage'><b>></b> {{getCurrentMessage()}}</div>
+    <div class='pastMessages'>
+        <div class='pastMessage' *ngFor="let pastMessage of getPastMessages()">{{pastMessage}}</div>
+    </div>
+</div>

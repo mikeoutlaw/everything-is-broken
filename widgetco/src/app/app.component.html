@@ -1,6 +1,10 @@
 <ng-container *ngIf="company$ | async as company">
   <div class="content" role="main">
 
+    <div class="messages">
+      <app-messages [company]="company"></app-messages>
+    </div>
+
     <app-scoreboard [company]="company"></app-scoreboard>
     <hr />
 

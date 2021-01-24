@@ -1,0 +1,15 @@
+.messages {
+    padding: 5px;
+}
+
+.currentMessage {
+    color: white;
+}
+
+.pastMessages {
+    overflow: hidden;
+}
+
+.pastMessage {
+    color: gray;
+}

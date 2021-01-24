@@ -11,6 +11,7 @@ import { LargeTeamComponent } from './large-team/large-team.component';
 import { HiringManagersComponent } from './hiring-managers/hiring-managers.component';
 import { HrDeptComponent } from './hr-dept/hr-dept.component';
 import { HrTeamComponent } from './hr-team/hr-team.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HrTeamComponent } from './hr-team/hr-team.component';
     LargeTeamComponent,
     HiringManagersComponent,
     HrDeptComponent,
-    HrTeamComponent
+    HrTeamComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,8 @@ export class Company {
     hiringMgrs: Employee[] = [];
     hrTeams: Team[] = [];
 
+    messages: string[] = [];
+
     private readonly developerDelayMs = 1000;
     private readonly developerTicketCloseRate: number = 1;
     newDeveloperCost: number = 5;
@@ -45,6 +47,7 @@ export class Company {
 
     constructor() {
         this.newHiringManagerCost = this.getNewHiringManagerCost();
+        this.messages.push('Welcome to WidgetCo!');
     }
 
     /**
