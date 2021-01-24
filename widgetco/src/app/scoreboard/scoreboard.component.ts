@@ -10,6 +10,8 @@ import { CompanyService } from '../company.service';
 export class ScoreBoardComponent implements OnInit {
   @Input() company: Company | undefined;
 
+  wfhMessage = 'Yay, work from home!!!'
+
   constructor(private companyService: CompanyService) { }
 
   ngOnInit(): void {
@@ -20,6 +22,8 @@ export class ScoreBoardComponent implements OnInit {
   }
 
   getCapitalExpenses(): number {
-    return this.companyService.getCapitalExpenses();
+    let capex = this.companyService.getCapitalExpenses();
+    if (capex > 0) this.wfhMessage = '';
+    return capex;
   }
 }
