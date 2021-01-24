@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+.column {
+    display: inline-block;
+    vertical-align: top;
+    border-style: solid;
+    border-width: 0px 1px 0px 0px;
+    border-color: black;
+    padding: 0px 20px;
+}
+
+.column:last-of-type {
+    border-style: none;
+}
+
+.column h4 {
+    margin-bottom: 0px;
+}

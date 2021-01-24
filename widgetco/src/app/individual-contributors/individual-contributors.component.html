@@ -1,4 +1,5 @@
 <h4>Individual Contributors</h4>
+<hr>
 <button [disabled]="!canHireNewDeveloper()" (click)="onNewHireClick()">Hire New Developer</button><br />
 Count: {{getIndividualContributorCount()}}<br />
 Hiring cost: {{company?.newDeveloperCost|currency:'USD':'$'}}
