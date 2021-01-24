@@ -12,6 +12,7 @@ import { HiringManagersComponent } from './hiring-managers/hiring-managers.compo
 import { HrDeptComponent } from './hr-dept/hr-dept.component';
 import { HrTeamComponent } from './hr-team/hr-team.component';
 import { MessagesComponent } from './messages/messages.component';
+import { BuildingsComponent } from './buildings/buildings.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MessagesComponent } from './messages/messages.component';
     HiringManagersComponent,
     HrDeptComponent,
     HrTeamComponent,
-    MessagesComponent
+    MessagesComponent,
+    BuildingsComponent
   ],
   imports: [
     BrowserModule,

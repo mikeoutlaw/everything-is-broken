@@ -4,5 +4,6 @@
     Employee count: {{getEmployeeCount()|number}}<br />
     Company Capital: {{company?.capital|currency:"USD":"$"}}<br />
     Personnel Cost: {{company?.personnelCost|currency:"USD":"$"}}<br />
+    Capital Expenses: {{getCapitalExpenses()|currency:"USD":"$"}}<br />
     Tickets closed: {{company?.ticketsClosed|number}}
 </p>

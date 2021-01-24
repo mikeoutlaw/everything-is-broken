@@ -25,6 +25,7 @@ export class Company {
     capital: number = 5;
     ticketsClosed: number = 0;
     personnelCost: number = 0;
+    capitalExpenditues: number = 0;
 
     readonly maxTicketValue: number = .18;
     readonly minTicketValue: number = .07;
@@ -44,6 +45,11 @@ export class Company {
     readonly necessaryLargeTeamsForNewHiringManager: number = 4;
     readonly necessaryHiringManagersForHRTeam: number = 3;
     readonly hrTeamDelayMs: number = 2000;
+
+    private buildingCount: number = 0;
+    readonly necessaryHrTeamsForNewBuilding: number = 2;
+    private newBuildingCost: number = 1000;
+    private newBuildingCostFluctuation: number = .2;
 
     constructor() {
         this.newHiringManagerCost = this.getNewHiringManagerCost();
@@ -145,9 +151,9 @@ export class Company {
         if (this.capital < this.newHiringManagerCost) return false;
 
         let requirement =
-            this.necessaryLargeTeamsForNewHiringManager *
-            (this.getHiringManagerCount() + 1) *
-            ((this.hrTeams.length * this.necessaryLargeTeamsForNewHiringManager) || 1);
+            Math.max(this.necessaryLargeTeamsForNewHiringManager,
+                (this.getHiringManagerCount() + 1) * this.necessaryLargeTeamsForNewHiringManager +
+                (this.hrTeams.length * this.necessaryHiringManagersForHRTeam * this.necessaryLargeTeamsForNewHiringManager));
         if (this.largeTeams.length >= requirement) {
             return true;
         }
@@ -182,5 +188,44 @@ export class Company {
 
     getEmployeeCount(): number {
         return this.employeeCount;
+    }
+
+    expandIntoNewBuilding(): void {
+        if (!this.canExpandIntoNewBuilding()) return;
+        this.capital -= this.newBuildingCost;
+        this.capitalExpenditues += this.newBuildingCost;
+        this.buildingCount++;
+        this.newBuildingCost = this.calculateNewBuildingCost();
+    }
+
+    getBuildingCount(): number {
+        return this.buildingCount;
+    }
+
+    canExpandIntoNewBuilding(): boolean {
+        if (this.capital < this.newBuildingCost) return false;
+
+        let requirement =
+            Math.max(this.necessaryHrTeamsForNewBuilding,
+                (this.buildingCount+1) * this.necessaryHrTeamsForNewBuilding);
+        if (this.hrTeams.length >= requirement) return true;
+        return false;
+    }
+
+    /**
+     * Returns a cost between the min and max new host cost, exclusively.
+     */
+    calculateNewBuildingCost(): number {
+        let min = this.newBuildingCost - (this.newBuildingCost * this.newBuildingCostFluctuation);
+        let max = this.newBuildingCost * (1+this.newBuildingCostFluctuation);
+        return Math.random() * (this.newBuildingCost - min) + max;
+    }
+
+    getNewBuildingCost(): number {
+        return this.newBuildingCost;
+    }
+
+    getCapitalExpenses(): number {
+        return this.capitalExpenditues;
     }
 }

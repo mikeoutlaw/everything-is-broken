@@ -77,4 +77,24 @@ export class CompanyService {
   getEmployeeCount(): number {
     return this.company.getEmployeeCount();
   }
+
+  expandIntoNewBuilding(): void {
+    return this.company.expandIntoNewBuilding();
+  }
+
+  getBuildingCount(): number {
+    return this.company.getBuildingCount();
+  }
+
+  canExpandIntoNewBuilding(): boolean {
+    return this.company.canExpandIntoNewBuilding();
+  }
+
+  getNewBuildingCost(): number {
+    return this.company.getNewBuildingCost();
+  }
+
+  getCapitalExpenses(): number {
+    return this.company.getCapitalExpenses();
+  }
 }

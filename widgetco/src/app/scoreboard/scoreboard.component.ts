@@ -18,4 +18,8 @@ export class ScoreBoardComponent implements OnInit {
   getEmployeeCount(): number {
     return this.companyService.getEmployeeCount();
   }
+
+  getCapitalExpenses(): number {
+    return this.companyService.getCapitalExpenses();
+  }
 }
