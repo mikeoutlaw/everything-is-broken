@@ -1,8 +1,8 @@
+import { noop } from 'rxjs';
 import { Team } from './team';
-import { noopfn } from './utils/globals';
 
 describe('Team', () => {
   it('should create an instance', () => {
-    expect(new Team(noopfn, 800)).toBeTruthy();
+    expect(new Team(noop, 800)).toBeTruthy();
   });
 });

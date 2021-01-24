@@ -13,10 +13,9 @@ export class ScoreBoardComponent implements OnInit {
   constructor(private companyService: CompanyService) { }
 
   ngOnInit(): void {
-    this.getCompany();
   }
 
-  getCompany(): void {
-    this.companyService.getCompany().subscribe(company => this.company = company);
+  getEmployeeCount(): number {
+    return this.companyService.getEmployeeCount();
   }
 }

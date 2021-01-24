@@ -1,7 +1,7 @@
 <h3>Widget Company Overview</h3>
 <hr>
 <p>
-    Employee count: {{company?.employees?.length}}<br />
+    Employee count: {{getEmployeeCount()|number}}<br />
     Company Capital: {{company?.capital|currency:"USD":"$"}}<br />
     Personnel Cost: {{company?.personnelCost|currency:"USD":"$"}}<br />
     Tickets closed: {{company?.ticketsClosed|number}}

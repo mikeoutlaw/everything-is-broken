@@ -73,4 +73,8 @@ export class CompanyService {
   formHrTeam(): void {
     this.company.formHrTeam();
   }
+
+  getEmployeeCount(): number {
+    return this.company.getEmployeeCount();
+  }
 }

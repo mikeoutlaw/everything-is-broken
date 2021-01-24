@@ -1,7 +1,7 @@
 <ng-container *ngIf="company$ | async as company">
   <div class="content" role="main">
 
-    <app-scoreboard></app-scoreboard>
+    <app-scoreboard [company]="company"></app-scoreboard>
     <hr />
 
     <div class="column">

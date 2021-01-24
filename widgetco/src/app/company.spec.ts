@@ -1,9 +1,7 @@
+import { noop } from 'rxjs';
 import { Company } from './company';
-import { CompanyService } from './company.service';
-import { Developer } from './developer';
-import { HiringManager } from './hiring-manager';
+import { Employee } from './employee';
 import { Team } from './team';
-import { noopfn } from './utils/globals';
 
 describe('Company', () => {
   it('should create an instance', () => {
@@ -32,50 +30,38 @@ describe('Company', () => {
     company.hireNewDeveloper();
 
     // Assert
-    expect(company.employees.length).toBe(0);
+    expect(company.getEmployeeCount()).toBe(0);
     expect(company.capital).toBe(expectedHiringBudget);
   });
 
   it('should form small team when there are enough individual contributors', () => {
     // Arrange
     let company = new Company();
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
+    company.developers = Array.from({length: 5}, () => new Employee(noop, 0), 0);
 
     // Act
     company.formSmallTeam();
 
     // Arrange
     expect(company.smallTeams.length).toBe(1);
-    expect(company.employees.every(employee => employee instanceof Developer && employee.isIndividualContributor() === false)).toBeTrue();
   });
 
   it('should not form a small team when there are not enough individual contributors', () => {
     // Arrange
     let company = new Company();
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
+    company.developers = Array.from({length: 3}, () => new Employee(noop, 0), 0);
 
     // Act
     company.formSmallTeam();
 
     // Arrange
     expect(company.smallTeams.length).toBe(0);
-    expect(company.employees.every(employee => employee instanceof Developer && employee.isIndividualContributor())).toBeTrue();
   });
 
   it('should return true when there are enough individual contributors to form a small team', () => {
     // Arrange
     let company = new Company();
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
+    company.developers = Array.from({length: 5}, () => new Employee(noop, 0), 0);
 
     // Act
     let result = company.canFormSmallTeam();
@@ -87,8 +73,7 @@ describe('Company', () => {
   it('should return false when there are not enough individual contributors to form a small team', () => {
     // Arrange
     let company = new Company();
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
+    company.developers = Array.from({length: 2}, () => new Employee(noop, 0), 0);
 
     // Act
     let result = company.canFormSmallTeam();
@@ -100,12 +85,7 @@ describe('Company', () => {
   it('should return false when there are not enough individual contributors to form a small team after forming a small team', () => {
     // Arrange
     let company = new Company();
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
-    company.employees.push(new Developer(company));
+    company.developers = Array.from({length: 6}, () => new Employee(noop, 0), 0);
     company.formSmallTeam();
 
     // Act
@@ -118,7 +98,7 @@ describe('Company', () => {
   it('should return false when there are not enough small teams to form a medium team', () => {
     // Arrange
     let company = new Company();
-    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
+    company.smallTeams.push(new Team(noop, 0));
 
     // Act
     let result = company.canFormMediumTeam();
@@ -130,8 +110,7 @@ describe('Company', () => {
   it('should return true when there are enough small teams to form a medium team', () => {
     // Arrange
     let company = new Company();
-    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
-    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
+    company.smallTeams = Array.from({length: 2}, () => new Team(noop, 0), 0);
 
     // Act
     let result = company.canFormMediumTeam();
@@ -143,9 +122,7 @@ describe('Company', () => {
   it('should return false when there are not enough small teams to form a medium team after forming a medium team', () => {
     // Arrange
     let company = new Company();
-    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
-    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
-    company.smallTeams.push(new Team(noopfn, company.smallTeamDelayMs));
+    company.smallTeams = Array.from({length: 3}, () => new Team(noop, 0), 0);
     company.formMediumTeam();
 
     // Act
@@ -158,7 +135,7 @@ describe('Company', () => {
   it('should return false when there are not enough medium teams to form a large team', () => {
     // Arrange
     let company = new Company();
-    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
+    company.mediumTeams.push(new Team(noop, 0));
 
     // Act
     let result = company.canFormLargeTeam();
@@ -170,8 +147,7 @@ describe('Company', () => {
   it('should return true when there are enough medium teams to form a large team', () => {
     // Arrange
     let company = new Company();
-    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
-    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
+    company.mediumTeams = Array.from({length: 2}, () => new Team(noop, 0), 0);
 
     // Act
     let result = company.canFormLargeTeam();
@@ -183,9 +159,7 @@ describe('Company', () => {
   it('should return false when there are not enough medium teams to form a large team after forming a large team', () => {
     // Arrange
     let company = new Company();
-    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
-    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
-    company.mediumTeams.push(new Team(noopfn, company.mediumTeamDelayMs));
+    company.largeTeams = Array.from({length: 3}, () => new Team(noop, 0));
     company.formLargeTeam();
 
     // Act
@@ -200,10 +174,7 @@ describe('Company', () => {
     let company = new Company();
     company.capital = 10;
     company.newHiringManagerCost = 1;
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams = Array.from({length: 4}, () => new Team(noop, 0));
 
     // Act
     let result = company.canHireNewHiringManager();
@@ -217,12 +188,7 @@ describe('Company', () => {
     let company = new Company();
     company.capital = 10;
     company.newHiringManagerCost = 1;
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
+    company.largeTeams = Array.from({length: 6}, () => new Team(noop, 0));
 
     // Act
     let result = company.canHireNewHiringManager();
@@ -231,18 +197,43 @@ describe('Company', () => {
     expect(result).toBeTrue();
   });
 
+  it('should not allow hiring new hiring managers when there are 4 large teams and one current hiring manager', () => {
+    // Arrange
+    let company = new Company();
+    company.capital = 10;
+    company.newHiringManagerCost = 1;
+    company.largeTeams = Array.from({length: 4}, () => new Team(noop, 0));
+    company.hiringMgrs.push(new Employee(noop, 0));
+
+    // Act
+    let result = company.canHireNewHiringManager();
+
+    // Assert
+    expect(result).toBeFalse();
+  });
+
+  it('should not allow hiring new hiring managers when there are 12 large teams, no current hiring managers, and one HR team', () => {
+    // Arrange
+    let company = new Company();
+    company.capital = 10;
+    company.newHiringManagerCost = 1;
+    company.largeTeams = Array.from({length: 12}, () => new Team(noop, 0));
+    company.hrTeams.push(new Team(noop,0));
+
+    // Act
+    let result = company.canHireNewHiringManager();
+
+    // Assert
+    expect(result).toBeFalse();
+  });
+
   it('should not allow hiring new hiring managers when there are 4 or more large teams and one or more hiring managers', () => {
     // Arrange
     let company = new Company();
     company.capital = 10;
     company.newHiringManagerCost = 1;
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.largeTeams.push(new Team(noopfn, company.largeTeamDelayMs));
-    company.employees.push(new HiringManager(company));
+    company.largeTeams = Array.from({length: 6}, () => new Team(noop, 0));
+    company.hiringMgrs.push(new Employee(noop, 0));
 
     // Act
     let result = company.canHireNewHiringManager();
