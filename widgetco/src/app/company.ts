@@ -135,7 +135,23 @@ export class Company {
     }
 
     canFormLargeTeam(): boolean {
-        return this.mediumTeams.length >= this.necessaryMediumTeamsToFormLargeTeam;
+        let buildingLimit = this.getEmployeeCountPerBuilding();
+        let devsPerLargeTeam = this.smallTeamSize *
+            this.necessarySmallTeamsToFormMediumTeam *
+            this.necessaryMediumTeamsToFormLargeTeam;
+        let largeTeamLimit = (buildingLimit / devsPerLargeTeam) * (this.buildingCount + 1);
+
+        return this.mediumTeams.length >= this.necessaryMediumTeamsToFormLargeTeam &&
+            this.largeTeams.length < largeTeamLimit;
+    }
+
+    getEmployeeCountPerBuilding(): number {
+        return this.smallTeamSize *
+            this.necessarySmallTeamsToFormMediumTeam *
+            this.necessaryMediumTeamsToFormLargeTeam *
+            this.necessaryLargeTeamsForNewHiringManager *
+            this.necessaryHiringManagersForHRTeam *
+            this.necessaryHrTeamsForNewBuilding;
     }
 
     formLargeTeam(): void {
@@ -174,7 +190,7 @@ export class Company {
     }
 
     canFormHRTeam(): boolean {
-        let hrTeamPerBuildingLimit = Math.max(this.necessaryHrTeamsForNewBuilding, (this.buildingCount+1) * this.necessaryHrTeamsForNewBuilding);
+        let hrTeamPerBuildingLimit = Math.max(this.necessaryHrTeamsForNewBuilding, (this.buildingCount + 1) * this.necessaryHrTeamsForNewBuilding);
         return this.hiringMgrs.length >= this.necessaryHiringManagersForHRTeam &&
             this.hrTeams.length < hrTeamPerBuildingLimit;
     }
