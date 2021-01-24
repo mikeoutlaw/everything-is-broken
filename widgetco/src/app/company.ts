@@ -17,12 +17,13 @@ export class Company {
     newDeveloperCost: number = 5;
     readonly maxNewHireCost: number = 10;
     readonly minNewHireCost: number = 3;
+    private readonly maxIndividualContributors: number = 30;
 
     private readonly hiringManagerDelayMs = 1500;
     newHiringManagerCost: number = 0;
     private readonly hiringManagerCostOverhead: number = 1.25;
 
-    capital: number = 5;
+    capital: number = 5000;
     ticketsClosed: number = 0;
     personnelCost: number = 0;
     capitalExpenditues: number = 0;
@@ -33,10 +34,12 @@ export class Company {
     readonly smallTeamSize: number = 5;
     readonly smallTeamDelayMs: number = 800;
     readonly smallTeamTicketCloseRate: number = 5;
+    private readonly maxSmallTeams: number = 8;
 
     readonly necessarySmallTeamsToFormMediumTeam: number = 2;
     readonly mediumTeamDelayMs: number = 1100;
     readonly mediumTeamTicketCloseRate: number = 13;
+    private readonly maxMediumTeams: number = 6;
 
     readonly necessaryMediumTeamsToFormLargeTeam: number = 2;
     readonly largeTeamDelayMs: number = 1600;
@@ -45,6 +48,7 @@ export class Company {
     readonly necessaryLargeTeamsForNewHiringManager: number = 4;
     readonly necessaryHiringManagersForHRTeam: number = 3;
     readonly hrTeamDelayMs: number = 2000;
+    private readonly maxHiringManagers: number = 6;
 
     private buildingCount: number = 0;
     readonly necessaryHrTeamsForNewBuilding: number = 2;
@@ -114,11 +118,11 @@ export class Company {
     }
 
     canFormSmallTeam(): boolean {
-        return this.developers.length >= this.smallTeamSize;
+        return this.developers.length >= this.smallTeamSize && this.smallTeams.length < this.maxSmallTeams;
     }
 
     canFormMediumTeam(): boolean {
-        return this.smallTeams.length >= this.necessarySmallTeamsToFormMediumTeam;
+        return this.smallTeams.length >= this.necessarySmallTeamsToFormMediumTeam && this.mediumTeams.length < this.maxMediumTeams;
     }
 
     formMediumTeam(): void {
@@ -144,7 +148,7 @@ export class Company {
     }
 
     canHireNewDeveloper(): boolean {
-        return this.capital >= this.newDeveloperCost;
+        return this.capital >= this.newDeveloperCost && this.developers.length < this.maxIndividualContributors;
     }
 
     canHireNewHiringManager(): boolean {
@@ -154,7 +158,7 @@ export class Company {
             Math.max(this.necessaryLargeTeamsForNewHiringManager,
                 (this.getHiringManagerCount() + 1) * this.necessaryLargeTeamsForNewHiringManager +
                 (this.hrTeams.length * this.necessaryHiringManagersForHRTeam * this.necessaryLargeTeamsForNewHiringManager));
-        if (this.largeTeams.length >= requirement) {
+        if (this.largeTeams.length >= requirement && this.hiringMgrs.length < this.maxHiringManagers) {
             return true;
         }
 
@@ -170,7 +174,9 @@ export class Company {
     }
 
     canFormHRTeam(): boolean {
-        return this.hiringMgrs.length >= this.necessaryHiringManagersForHRTeam;
+        let hrTeamPerBuildingLimit = Math.max(this.necessaryHrTeamsForNewBuilding, (this.buildingCount+1) * this.necessaryHrTeamsForNewBuilding);
+        return this.hiringMgrs.length >= this.necessaryHiringManagersForHRTeam &&
+            this.hrTeams.length < hrTeamPerBuildingLimit;
     }
 
     formHrTeam(): void {
@@ -207,7 +213,7 @@ export class Company {
 
         let requirement =
             Math.max(this.necessaryHrTeamsForNewBuilding,
-                (this.buildingCount+1) * this.necessaryHrTeamsForNewBuilding);
+                (this.buildingCount + 1) * this.necessaryHrTeamsForNewBuilding);
         if (this.hrTeams.length >= requirement) return true;
         return false;
     }
@@ -217,7 +223,7 @@ export class Company {
      */
     calculateNewBuildingCost(): number {
         let min = this.newBuildingCost - (this.newBuildingCost * this.newBuildingCostFluctuation);
-        let max = this.newBuildingCost * (1+this.newBuildingCostFluctuation);
+        let max = this.newBuildingCost * (1 + this.newBuildingCostFluctuation);
         return Math.random() * (this.newBuildingCost - min) + max;
     }
 
