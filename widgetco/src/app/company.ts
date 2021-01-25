@@ -60,6 +60,60 @@ export class Company {
         this.messages.push('Welcome to WidgetCo!');
     }
 
+    reset() {
+        this.developers.forEach((d) => clearInterval(d['intervalId']));
+        this.smallTeams.forEach((d) => clearInterval(d['intervalId']));
+        this.mediumTeams.forEach((d) => clearInterval(d['intervalId']));
+        this.largeTeams.forEach((d) => clearInterval(d['intervalId']));
+        this.hiringMgrs.forEach((d) => clearInterval(d['intervalId']));
+        this.hrTeams.forEach((d) => clearInterval(d['intervalId']));
+    }
+
+    loadCompany() {
+        this.developers = this.developers.map(
+            (d) =>
+                new Employee(
+                    () => this.closeTickets(this.developerTicketCloseRate),
+                    this.developerDelayMs
+                )
+        );
+        this.smallTeams = this.smallTeams.map(
+            (t) =>
+                new Team(
+                    () => this.closeTickets(this.smallTeamTicketCloseRate),
+                    this.smallTeamDelayMs
+                )
+        );
+        this.mediumTeams = this.mediumTeams.map(
+            (t) =>
+                new Team(
+                    () => this.closeTickets(this.mediumTeamTicketCloseRate),
+                    this.mediumTeamDelayMs
+                )
+        );
+        this.largeTeams = this.largeTeams.map(
+            (t) =>
+                new Team(
+                    () => this.closeTickets(this.largeTeamTicketCloseRate),
+                    this.largeTeamDelayMs
+                )
+        );
+        this.hiringMgrs = this.hiringMgrs.map(
+            (hm) =>
+                new Employee(() => {
+                    if (this.canHireNewDeveloper()) this.hireNewDeveloper();
+                }, this.hiringManagerDelayMs)
+        );
+        this.hrTeams = this.hrTeams.map(
+            (t) =>
+                new Team(() => {
+                    if (this.canFormLargeTeam()) this.formLargeTeam();
+                    else if (this.canFormMediumTeam()) this.formMediumTeam();
+                    else if (this.canFormSmallTeam()) this.formSmallTeam();
+                }, this.hrTeamDelayMs)
+        );
+    }
+
     /**
      * Increments the closed tickets as well as increments the hiring budget based on the number of tickets closed
      * to be a multiple of a random number between min and max ticket value.

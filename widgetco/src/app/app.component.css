@@ -1,3 +1,7 @@
+.content {
+    margin-bottom: 20px;
+}
+
 .column {
     display: inline-block;
     vertical-align: top;
@@ -15,4 +19,28 @@
     background-color: black;
     height: 100px;
     width: 100%;
+}
+
+.reset {
+    padding: 8px;
+    margin-top: 10vh;
+    margin: 0 auto;
+    text-align: center;
+    font-family: sans-serif;
+    border-top: 1px solid #ccc;
+}
+
+.reset-btn {
+    padding: 8px 24px;
+    border: 1px solid red;
+    border-radius: 4px;
+    background: transparent;
+    color: red;
+    transition: background-color 180ms ease-in-out, color 180ms ease-in-out;
+}
+
+.reset-btn:hover {
+    background-color: red;
+    color: white;
+    cursor: pointer;
 }

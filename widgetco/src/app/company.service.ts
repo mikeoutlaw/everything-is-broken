@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Company } from './company';
 
 @Injectable({
@@ -7,8 +7,32 @@ import { Company } from './company';
 })
 export class CompanyService {
   private company: Company = new Company();
+  private company$ = new BehaviorSubject(this.company);
 
   constructor() { }
+
+  resetCompany() {
+    this.company.reset();
+    this.company = new Company();
+    this.company$.next(this.company);
+  }
+
+  tryLoadGame() {
+    const loadedGameString = localStorage.getItem('save');
+    if (!loadedGameString) {
+      return;
+    }
+
+    const loadedCompany = JSON.parse(loadedGameString);
+    for (const key in loadedCompany) {
+      (this.company as any)[key] = loadedCompany[key];
+    }
+    this.company.loadCompany();
+  }
+
+  saveGame() {
+    localStorage.setItem('save', JSON.stringify(this.company));
+  }
 
   closeTickets(numTickets: number): void {
     this.company.closeTickets(numTickets);
