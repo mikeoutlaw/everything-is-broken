@@ -39,7 +39,7 @@ export class CompanyService {
   }
 
   getCompany(): Observable<Company> {
-    return of(this.company);
+    return this.company$;
   }
 
   hireNewDeveloper(): void {
